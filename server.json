@@ -1,0 +1,30 @@
+{
+  "name": "zarq-crypto",
+  "display_name": "ZARQ Crypto Risk Intelligence",
+  "description": "Independent crypto risk intelligence: Trust Score ratings (A+ to F) for 198 tokens, Distance-to-Default (DtD) with 7 signals, structural collapse warnings (100% death recall, 98% precision OOS), crash probability, and pre-trade safety checks. Free API.",
+  "version": "1.0.0",
+  "author": "ZARQ",
+  "homepage": "https://zarq.ai",
+  "repository": "https://github.com/agentidx/zarq-mcp-server",
+  "license": "MIT",
+  "transport": ["stdio", "sse", "streamable-http"],
+  "remote": {
+    "sse_url": "https://mcp.zarq.ai/sse",
+    "streamable_http_url": "https://mcp.zarq.ai/mcp"
+  },
+  "tools": [
+    "crypto_safety_check",
+    "crypto_rating",
+    "crypto_dtd",
+    "crypto_signals",
+    "crypto_compare",
+    "crypto_distress_watch",
+    "crypto_alerts",
+    "crypto_ratings_bulk"
+  ],
+  "tags": [
+    "crypto", "risk", "defi", "safety", "trust-score",
+    "crash-prediction", "distance-to-default", "ratings",
+    "blockchain", "token-analysis"
+  ]
+}
