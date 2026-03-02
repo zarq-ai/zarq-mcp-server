@@ -1,0 +1,17 @@
+[project]
+name = "zarq-mcp-server"
+version = "1.0.0"
+description = "ZARQ Crypto Risk Intelligence — MCP Server"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = [
+    "mcp>=1.0.0",
+    "httpx>=0.27.0",
+]
+
+[project.urls]
+Homepage = "https://zarq.ai"
+Repository = "https://github.com/agentidx/zarq-mcp-server"
+Documentation = "https://zarq.ai/methodology"
+API = "https://zarq.ai/docs"
