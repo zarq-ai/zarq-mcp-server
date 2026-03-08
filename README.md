@@ -4,6 +4,10 @@
 
 Independent crypto risk intelligence via the Model Context Protocol (MCP). Trust Score ratings, Distance-to-Default analysis, structural collapse warnings, and pre-trade safety checks for 198 tokens.
 
+<a href="https://glama.ai/mcp/servers/zarq-ai/zarq-risk-intelligence">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/zarq-ai/zarq-risk-intelligence/badge" alt="zarq-risk-intelligence MCP server" />
+</a>
+
 ## Quick Start
 
 ### Remote (SSE / Streamable HTTP)
