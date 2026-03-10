@@ -4,9 +4,9 @@
     "kbanilsson-pixel"
   ],
   "name": "zarq-mcp-server",
-  "display_name": "ZARQ Crypto Risk Intelligence",
-  "description": "Independent crypto risk intelligence: Trust Score ratings (A+ to F) for 198 tokens, Distance-to-Default (DtD) with 7 signals, structural collapse warnings (100% death recall, 98% precision OOS), crash probability, and pre-trade safety checks.",
-  "tags": ["crypto", "risk", "defi", "safety", "trust-score", "crash-prediction", "distance-to-default", "ratings"],
+  "display_name": "ZARQ + Nerq: Crypto Risk & AI Agent Trust",
+  "description": "ZARQ crypto risk intelligence + Nerq AI agent trust verification. 198 tokens rated, 204K agents & tools indexed. 15 tools: safety checks, ratings, DtD, preflight trust, KYA reports, benchmarks. Free API.",
+  "tags": ["crypto", "risk", "defi", "ai", "agents", "trust-score", "mcp", "safety", "preflight", "kya"],
   "remote": {
     "url": "https://mcp.zarq.ai/mcp",
     "transport": "streamable-http"

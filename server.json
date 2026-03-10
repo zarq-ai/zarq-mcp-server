@@ -1,11 +1,11 @@
 {
   "name": "zarq-crypto",
-  "display_name": "ZARQ Crypto Risk Intelligence",
-  "description": "Independent crypto risk intelligence: Trust Score ratings (A+ to F) for 198 tokens, Distance-to-Default (DtD) with 7 signals, structural collapse warnings (100% death recall, 98% precision OOS), crash probability, and pre-trade safety checks. Free API.",
-  "version": "1.0.0",
+  "display_name": "ZARQ + Nerq: Crypto Risk & AI Agent Trust",
+  "description": "ZARQ crypto risk intelligence + Nerq AI agent trust verification. 198 tokens rated, 204K agents indexed. 15 tools. Free API.",
+  "version": "1.1.0",
   "author": "ZARQ",
   "homepage": "https://zarq.ai",
-  "repository": "https://github.com/agentidx/zarq-mcp-server",
+  "repository": "https://github.com/zarq-ai/zarq-mcp-server",
   "license": "MIT",
   "transport": ["stdio", "sse", "streamable-http"],
   "remote": {
@@ -20,11 +20,17 @@
     "crypto_compare",
     "crypto_distress_watch",
     "crypto_alerts",
-    "crypto_ratings_bulk"
+    "crypto_ratings_bulk",
+    "preflight_trust_check",
+    "kya_report",
+    "find_best_agent",
+    "agent_benchmark",
+    "get_agent_stats",
+    "nerq_scout_status",
+    "nerq_scout_findings"
   ],
   "tags": [
-    "crypto", "risk", "defi", "safety", "trust-score",
-    "crash-prediction", "distance-to-default", "ratings",
-    "blockchain", "token-analysis"
+    "crypto", "risk", "defi", "ai", "agents",
+    "trust-score", "mcp", "safety", "preflight", "kya"
   ]
 }

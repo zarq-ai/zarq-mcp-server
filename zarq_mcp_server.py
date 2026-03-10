@@ -1,19 +1,28 @@
 #!/usr/bin/env python3
 """
-ZARQ Crypto Risk Intelligence — MCP Server
-============================================
-Exposes ZARQ's crypto risk tools via the Model Context Protocol (MCP).
+ZARQ + Nerq MCP Server
+=======================
+Crypto risk intelligence (ZARQ) + AI agent trust verification (Nerq).
 Designed for registration on Smithery and Glama registries.
 
-Tools:
+Crypto tools (ZARQ):
   1. crypto_safety_check    — Quick pre-trade safety validation (<100ms)
-  2. crypto_rating           — Full Trust Score with 5-pillar breakdown
-  3. crypto_dtd              — Distance-to-Default with 7 signals
-  4. crypto_signals          — Active Structural Collapse/Stress signals
-  5. crypto_compare          — Head-to-head token comparison
-  6. crypto_distress_watch   — All tokens with DtD < 2.0
-  7. crypto_alerts            — Structural collapse/stress warnings
-  8. crypto_ratings_bulk     — Bulk ratings for multiple tokens
+  2. crypto_rating          — Full Trust Score with 5-pillar breakdown
+  3. crypto_dtd             — Distance-to-Default with 7 signals
+  4. crypto_signals         — Active Structural Collapse/Stress signals
+  5. crypto_compare         — Head-to-head token comparison
+  6. crypto_distress_watch  — All tokens with DtD < 2.0
+  7. crypto_alerts          — Structural collapse/stress warnings
+  8. crypto_ratings_bulk    — Bulk ratings for multiple tokens
+
+AI agent tools (Nerq):
+  9. preflight_trust_check  — Pre-interaction trust check between agents
+  10. kya_report            — Full Know Your Agent due diligence report
+  11. find_best_agent       — Find top agents by category and trust
+  12. agent_benchmark       — Benchmark leaderboard for a category
+  13. get_agent_stats       — Full Nerq ecosystem statistics
+  14. nerq_scout_status     — Scout autonomous discovery status
+  15. nerq_scout_findings   — Latest top agents discovered by Scout
 
 Usage:
   python zarq_mcp_server.py                    # stdio transport (default)
@@ -22,7 +31,7 @@ Usage:
 Requirements:
   pip install mcp httpx
 
-Registry tags: crypto, risk, defi, safety, trust-score, crash-prediction, distance-to-default, ratings
+Registry tags: crypto, risk, ai, agents, trust-score, mcp
 """
 
 import json
@@ -43,13 +52,22 @@ except ImportError:
 
 # ─── Configuration ───
 ZARQ_API_BASE = "https://zarq.ai"
-ZARQ_API_TIMEOUT = 10.0
+NERQ_API_BASE = "https://nerq.ai"
+API_TIMEOUT = 10.0
 
 # ─── API Client ───
 async def zarq_api(path: str, params: dict = None) -> dict:
     """Call ZARQ API endpoint and return JSON response."""
-    async with httpx.AsyncClient(timeout=ZARQ_API_TIMEOUT) as client:
+    async with httpx.AsyncClient(timeout=API_TIMEOUT) as client:
         url = f"{ZARQ_API_BASE}{path}"
+        resp = await client.get(url, params=params)
+        resp.raise_for_status()
+        return resp.json()
+
+async def nerq_api(path: str, params: dict = None) -> dict:
+    """Call Nerq API endpoint and return JSON response."""
+    async with httpx.AsyncClient(timeout=API_TIMEOUT) as client:
+        url = f"{NERQ_API_BASE}{path}"
         resp = await client.get(url, params=params)
         resp.raise_for_status()
         return resp.json()
@@ -203,6 +221,104 @@ TOOLS = [
             "required": []
         }
     ),
+
+    # ─── Nerq AI Agent Tools ───
+    Tool(
+        name="preflight_trust_check",
+        description=(
+            "Pre-interaction trust check between AI agents. Returns trust scores, grades, "
+            "risk level, and PROCEED/CAUTION/DENY recommendation. Use before delegating "
+            "tasks to or accepting requests from another agent. 204K+ agents indexed. "
+            "Example: preflight_trust_check(target='SWE-agent')"
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "target": {"type": "string", "description": "Agent name to check trust for"},
+                "caller": {"type": "string", "description": "Your agent name (optional)"}
+            },
+            "required": ["target"]
+        }
+    ),
+    Tool(
+        name="kya_report",
+        description=(
+            "Get a full Know Your Agent (KYA) due diligence report for an AI agent. Returns "
+            "trust score, grade, category, description, stars, source URL, compliance data, "
+            "and risk assessment. 204K+ agents indexed. "
+            "Example: kya_report(name='langchain')"
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "name": {"type": "string", "description": "Agent name to look up"}
+            },
+            "required": ["name"]
+        }
+    ),
+    Tool(
+        name="find_best_agent",
+        description=(
+            "Find the top agents in a category that meet a minimum trust score. Returns "
+            "ranked agents with trust scores, compliance, and risk levels. "
+            "Example: find_best_agent(category='coding', min_trust_score=70)"
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "category": {"type": "string", "description": "Category to search (e.g. coding, security, finance)"},
+                "min_trust_score": {"type": "number", "description": "Minimum trust score 0-100 (default 50)", "default": 50}
+            },
+            "required": ["category"]
+        }
+    ),
+    Tool(
+        name="agent_benchmark",
+        description=(
+            "Get the benchmark leaderboard for a category — top 20 agents ranked by trust "
+            "score with compliance data, stars, and platform info. "
+            "Example: agent_benchmark(category='coding')"
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "category": {"type": "string", "description": "Category to benchmark"}
+            },
+            "required": ["category"]
+        }
+    ),
+    Tool(
+        name="get_agent_stats",
+        description=(
+            "Get full Nerq ecosystem statistics: total AI assets (5M+), breakdown by type "
+            "(agents, tools, MCP servers, models, datasets), top categories, frameworks, "
+            "languages, and trust distribution. Example: get_agent_stats()"
+        ),
+        inputSchema={"type": "object", "properties": {}}
+    ),
+    Tool(
+        name="nerq_scout_status",
+        description=(
+            "Get Nerq Scout status: how many agents evaluated, featured, and claimed. "
+            "The Scout autonomously discovers and evaluates high-trust agents daily. "
+            "Example: nerq_scout_status()"
+        ),
+        inputSchema={"type": "object", "properties": {}}
+    ),
+    Tool(
+        name="nerq_scout_findings",
+        description=(
+            "Get latest top agents discovered by Nerq Scout — high-trust agents (85+) "
+            "with stars, categories, and trust scores. Updated daily. "
+            "Example: nerq_scout_findings(limit=5)"
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "limit": {"type": "integer", "description": "Max results (default 10)", "default": 10}
+            }
+        }
+    ),
 ]
 
 
@@ -248,6 +364,42 @@ async def handle_tool(name: str, arguments: dict) -> str:
 
         elif name == "crypto_ratings_bulk":
             data = await zarq_api("/v1/crypto/ratings")
+            return json.dumps(data, indent=2)
+
+        # ─── Nerq AI Agent Tools ───
+        elif name == "preflight_trust_check":
+            params = {"target": arguments["target"]}
+            if arguments.get("caller"):
+                params["caller"] = arguments["caller"]
+            data = await nerq_api("/v1/preflight", params=params)
+            return json.dumps(data, indent=2)
+
+        elif name == "kya_report":
+            data = await nerq_api(f"/v1/agent/kya/{arguments['name']}")
+            return json.dumps(data, indent=2)
+
+        elif name == "find_best_agent":
+            params = {"domain": arguments["category"], "limit": 5}
+            if arguments.get("min_trust_score"):
+                params["min_trust"] = arguments["min_trust_score"]
+            data = await nerq_api("/v1/agent/search", params=params)
+            return json.dumps(data, indent=2)
+
+        elif name == "agent_benchmark":
+            data = await nerq_api(f"/v1/agent/benchmark/{arguments['category']}")
+            return json.dumps(data, indent=2)
+
+        elif name == "get_agent_stats":
+            data = await nerq_api("/v1/agent/stats")
+            return json.dumps(data, indent=2)
+
+        elif name == "nerq_scout_status":
+            data = await nerq_api("/v1/scout/status")
+            return json.dumps(data, indent=2)
+
+        elif name == "nerq_scout_findings":
+            params = {"limit": arguments.get("limit", 10)}
+            data = await nerq_api("/v1/scout/findings", params=params)
             return json.dumps(data, indent=2)
 
         else:
@@ -338,16 +490,16 @@ async def run_sse(host: str = "0.0.0.0", port: int = 8001):
     async def handle_server_card(request):
         return JSONResponse({
             "name": "zarq-crypto",
-            "display_name": "ZARQ Crypto Risk Intelligence",
-            "description": "Independent crypto risk intelligence: Trust Score ratings (A+ to F) for 198 tokens, Distance-to-Default (DtD) with 7 signals, structural collapse warnings (100% death recall, 98% precision OOS), crash probability, and pre-trade safety checks. Free API.",
-            "version": "1.0.0",
+            "display_name": "ZARQ + Nerq: Crypto Risk & AI Agent Trust",
+            "description": "ZARQ crypto risk intelligence + Nerq AI agent trust verification. 198 tokens rated, 204K agents & tools indexed. Trust scores, crash prediction, preflight checks, KYA reports. Free API.",
+            "version": "1.1.0",
             "author": "ZARQ",
             "homepage": "https://zarq.ai",
             "transport": ["sse", "streamable-http"],
             "sse_url": "https://mcp.zarq.ai/sse",
             "streamable_http_url": "https://mcp.zarq.ai/mcp",
-            "tools": ["crypto_safety_check", "crypto_rating", "crypto_dtd", "crypto_signals", "crypto_compare", "crypto_distress_watch", "crypto_alerts", "crypto_ratings_bulk"],
-            "tags": ["crypto", "risk", "defi", "safety", "trust-score", "crash-prediction", "distance-to-default", "ratings"]
+            "tools": [t.name for t in TOOLS],
+            "tags": ["crypto", "risk", "defi", "ai", "agents", "trust-score", "mcp", "safety"]
         })
 
     async def handle_health(request):
@@ -377,23 +529,22 @@ async def run_sse(host: str = "0.0.0.0", port: int = 8001):
 # ─── Smithery Configuration ───
 SMITHERY_CONFIG = {
     "name": "zarq-crypto",
-    "display_name": "ZARQ Crypto Risk Intelligence",
+    "display_name": "ZARQ + Nerq: Crypto Risk & AI Agent Trust",
     "description": (
-        "Independent crypto risk intelligence: Trust Score ratings (A+ to F) for 198 tokens, "
-        "Distance-to-Default (DtD) with 7 signals, structural collapse warnings "
-        "(100% death recall, 98% precision OOS), crash probability, and pre-trade safety checks. "
-        "Free API. Source: zarq.ai"
+        "ZARQ crypto risk intelligence + Nerq AI agent trust verification. "
+        "198 tokens rated (Trust Score, DtD, crash prediction). "
+        "204K agents & tools indexed (preflight checks, KYA reports, benchmarks). "
+        "Free API."
     ),
-    "version": "1.0.0",
+    "version": "1.1.0",
     "author": "ZARQ",
     "homepage": "https://zarq.ai",
     "tags": [
         "crypto", "risk", "defi", "safety", "trust-score",
-        "crash-prediction", "distance-to-default", "ratings", "blockchain",
-        "token-analysis", "portfolio-risk", "early-warning"
+        "ai", "agents", "mcp", "preflight", "kya"
     ],
     "tools": len(TOOLS),
-    "transport": ["stdio", "sse"],
+    "transport": ["stdio", "sse", "streamable-http"],
     "license": "MIT"
 }
 
